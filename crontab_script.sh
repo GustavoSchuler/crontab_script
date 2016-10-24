@@ -12,7 +12,7 @@
 # -mrp|--mysql_root_pass
 
 # Get data from API
-output=$(curl --silent -H 'Accept: application/vnd.twitchtv.v3+json' -X GET http://10.1.0.67:8080/naughtyhost/clientes)
+output=$(curl --silent -H 'Accept: application/vnd.twitchtv.v3+json' -X GET http://api.naughtyhost.com/clientes)
 
 # Get number of registers
 max=$( echo "$output" | jq length )
@@ -24,8 +24,9 @@ do
 	z=$(echo $(( i - 1 )))
 
 	_payd=$( echo "$output" | jq --arg z $z '.[$z | tonumber]["pago"]' )
-
-	if [ "$_payd" == 1 ]; then
+	
+	if [[ "$_payd" == '"1"' ]]
+	then
 
 		_domain=$( echo "$output" | jq --arg z $z '.[$z | tonumber]["host"]' )
 		_hostname=$( echo "$output" | jq --arg z $z '.[$z | tonumber]["uuid"]' )
@@ -34,7 +35,8 @@ do
 		_root_pass=$( echo "$output" | jq --arg z $z '.[$z | tonumber]["senharoot"]' )
 		_mysql_root_pass=$( echo "$output" | jq --arg z $z '.[$z | tonumber]["senhamysql"]' )
 
-		#./new_container.sh -d $_domain -h $_hostname -u $_username -up $_user_pass -rp $_root_pass -mrp $_mysql_root_pass
+		./new_container.sh -d $_domain -h $_hostname -u $_username -up $_user_pass -rp $_root_pass -mrp $_mysql_root_pass
+		
 		echo 'DOMAIN BEING CREATED:'
 		echo 'DOMAIN: ' $_domain
 		echo 'HOSTNAME: ' $_hostname
@@ -42,6 +44,7 @@ do
 		echo 'USER_PASS: ' $_user_pass
 		echo 'ROOT_PASS:' $_root_pass
 		echo 'MYSQL_ROOT_PASS: ' $_mysql_root_pass 
+		
 	fi
 
 done
