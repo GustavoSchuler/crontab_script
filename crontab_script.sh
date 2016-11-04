@@ -43,7 +43,9 @@ do
 		echo 'USERNAME:' $_username
 		echo 'USER_PASS:' $_user_pass
 		echo 'ROOT_PASS:' $_root_pass
-		echo 'MYSQL_ROOT_PASS:' $_mysql_root_pass 
+		echo 'MYSQL_ROOT_PASS:' $_mysql_root_pass
+
+		curl --silent -X PUT -d uuid=$_hostname -d status=2 http://api.naughtyhost.com/clientes
 		
 	fi
 
