@@ -12,7 +12,7 @@
 # -mrp|--mysql_root_pass
 
 # Get data from API
-output=$(curl --silent -H 'Accept: application/vnd.twitchtv.v3+json' -X GET http://api.naughtyhost.com/clientes)
+output=$(curl --silent -H 'Accept: application/vnd.twitchtv.v3+json' -X GET http://naughtyhost.com/api/clientes)
 
 # Get number of registers
 max=$( echo "$output" | jq length )
@@ -45,7 +45,7 @@ do
 		echo 'ROOT_PASS:' $_root_pass
 		echo 'MYSQL_ROOT_PASS:' $_mysql_root_pass
 
-		curl --silent -X PUT -d uuid=$_hostname -d status=2 http://api.naughtyhost.com/clientes
+		curl --silent -X PUT -d uuid=$_hostname -d status=2 http://naughtyhost.com/api/clientes
 		
 	fi
 
